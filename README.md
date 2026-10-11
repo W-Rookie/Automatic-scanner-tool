@@ -12,6 +12,19 @@ ROOKIESCAN은 웹 애플리케이션의 취약점 후보 입력 지점을 탐색
 - 전체 판정, 탐지 근거, 대응 방안, 수동 검토 항목과 공격 시나리오를 대시보드에 표시합니다.
 - 2026년 주요정보통신기반시설 가이드의 웹 장을 검색하여 A4 PDF 진단 보고서를 생성합니다.
 
+## 개인 담당 및 기여 (W-Rookie)
+
+이 저장소는 팀 프로젝트 결과물을 개인 포트폴리오용으로 보존한 복사본입니다. 아래 내용은 프로젝트에서 직접 담당하거나 통합 과정에서 수행한 범위입니다.
+
+| 구분 | 수행 내용 | 관련 코드 |
+|---|---|---|
+| 인증 스캐너 개발 | 비로그인·로그인 요청 결과와 보호 페이지 접근 여부를 비교해 인증 누락을 판정하고, 시도 내용과 응답 근거를 공통 결과로 출력 | `module/authn_scanner/` |
+| 인가 스캐너 개발 | 소유자·다른 사용자·비로그인 세션의 동일 자원 응답을 비교해 IDOR/BOLA와 객체 접근 권한 검증 누락을 판정 | `module/authz_scanner/` |
+| 공통 입출력 표준화 | 입력을 `url`, `method`, `parameters`, `session_cookie` 중심으로 정리하고, 출력을 URL·메서드·파라미터·판정·근거가 포함된 JSON 형식으로 통일 | `module/contracts.py`, `module/scanner_tools.py` |
+| 스캐너 통합 | 팀원이 개발한 SQLi, XSS, SSRF, 인증·인가, 파일 업로드·다운로드 등 9종 스캐너를 공통 실행 구조와 도구 레지스트리에 연결 | `module/tool_registry.py`, `module/analysis_stub.py` |
+| AI 실행 흐름 연결 | Sink 탐색 결과를 OpenAI Function Calling에 전달해 검사 후보에 맞는 스캐너를 선택하고, 로컬 실행 결과가 대시보드와 보고서로 이어지도록 연결 | `sink_finder.py`, `openai_module.py`, `streamlit_app.py` |
+| 통합 오류 수정·검증 | SSRF 및 파일 업로드·다운로드 모듈의 호출 형식과 실행 조건을 팀원과 점검하고, 통합 실행·최종 JSON·대시보드·PDF 보고서까지 확인 | `module/ssrf/`, `module/fileio_scanner/`, `tests/` |
+
 ## 빠른 실행
 
 ### 1. 의존성 설치
